@@ -3,7 +3,7 @@ package pentamino;
 
 import java.util.*;
 
-class GridVisual {
+public class GridVisual {
   char[][] grid;
   char displayOn;
   char displayOff;
@@ -13,7 +13,7 @@ class GridVisual {
   boolean floorTouched;
   List<GridCoordinate> coordinates;
 
-  GridVisual (int numRows, int numCols) {
+  public GridVisual (int numRows, int numCols) {
     this.grid = new char[numRows][numCols];
     this.displayOff = 'X';
     this.displayOn = Math.random() * 2 > 1 ? 'o' : '-';
@@ -85,7 +85,7 @@ class GridVisual {
     this.activeSquares = new ArrayList<Integer>();
   }
 
-  char[][] getGrid() {
+  public char[][] getGrid() {
     return this.grid;
   }
 
