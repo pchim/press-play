@@ -4,12 +4,14 @@ package pentamino;
 public class GridManager {
   GridBoxes gridBoxes;
   GridVisual gridVisual;
+  Piece piece;
   String keyPress;
   public GridManager (int numRows, int numCols) {
     this.gridBoxes = new GridBoxes(numRows, numCols);
     this.gridVisual = new GridVisual(numRows, numCols);
+    this.piece = new Piece(numRows, numCols);
     this.keyPress = null;
-    // maybe a new class that creates grid boxes
+    this.step();
   }
 
   void activate(int[] shape) {
@@ -24,6 +26,7 @@ public class GridManager {
   void floorPiece(int[] shape) {
     for (int i = 0; i < shape.length; i++) {
       if (shape[i] >= 0) {
+        System.out.println("shape: " + shape[i]);
         this.gridBoxes.getBox(shape[i]).touchFloor(true);
       }
     }  
@@ -33,7 +36,7 @@ public class GridManager {
     this.keyPress = key;
   }
 
-  boolean move(int[] piece) {
+  boolean move(Piece piece) {
     // the IMPORTANT aspect of this is that we take care of the asynchronous
     // user key presses by checking for that key press here.
     // we now synchronously update the position of the piece
@@ -48,16 +51,48 @@ public class GridManager {
     return piece.moveDown(this.gridBoxes);
   }
 
-  boolean moveHoriz(int[] piece, String dir) {
+  boolean moveHoriz(Piece piece, String dir) {
     return piece.moveHoriz(dir, this.gridBoxes);
-  }
-
-  void step() {
-    this.gridVisual.step();
   }
 
   char[][] getGrid() {
     return this.gridVisual.getGrid();
   }
+
+  void managerStep() {
+    // can refactor each bound check to find the first invalid block
+    boolean movedDown = this.move(piece);
+    int[] shape = piece.shape;
+
+    // update positions of the shape on the board
+    if (movedDown) {
+      this.activate(shape);
+    } else {
+      this.floor(shape);
+      piece.newShape();
+    }
+
+    for (int i = 0; i < 10; i++) {
+      System.out.print('\n');
+    }
+
+    // format grid output
+    System.out.print(this.gridVisual);
+
+  }
+
+  void step() {
+    this.managerStep();
+    this.gridVisual.step();
+
+    try {
+      Thread.sleep(100);
+    } catch (Exception e) {
+      
+    }
+    this.step();
+
+  }
 }
+
 

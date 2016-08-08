@@ -4,27 +4,27 @@ import java.util.*;
 
 
 // board piece
-class Piece {
+public class Piece {
   int numRows;
   int numCols;
   HashMap<String, int[]> shapes;
   int[] shape;
 
-  Piece (int numRows, int numCols) {
+  public Piece (int numRows, int numCols) {
     this.numRows = numRows;
     this.numCols = numCols;
     this.shapes = this.makeShapes(numRows, numCols);
     this.newShape();
   }
 
-  HashMap<String, int[]> makeShapes(int numRows, int numCols) {
+  private HashMap<String, int[]> makeShapes(int numRows, int numCols) {
     HashMap<String, int[]> shapes = new HashMap<String, int[]>();
     shapes.put("square", new int[]{-numCols + 1, -(numCols) + 2, -2 * (numCols) + 2, -2 * (numCols) + 1});
     shapes.put("barI", new int[]{-numCols, -2 * numCols, -3 * numCols, -4 * numCols});
     return shapes;
   }
 
-  void newShape() {
+  public void newShape() {
     int[] newShape = Math.random() * 2 > 1 ? this.shapes.get("barI") : this.shapes.get("square");
     this.shape = new int[newShape.length];
     this.shape = Arrays.copyOf(newShape, newShape.length);
@@ -44,7 +44,7 @@ class Piece {
     }
   }
 
-  void movePiece(int moves) {
+  public void movePiece(int moves) {
     for (int i = 0; i < this.shape.length; i++) {
       this.shape[i] += moves;
     }    

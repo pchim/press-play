@@ -15,7 +15,7 @@ public class GridVisual {
 
   public GridVisual (int numRows, int numCols) {
     this.grid = new char[numRows][numCols];
-    this.displayOff = 'X';
+    this.displayOff = ' ';
     this.displayOn = Math.random() * 2 > 1 ? 'o' : '-';
     this.numRows = numRows;
     this.numCols = numCols;

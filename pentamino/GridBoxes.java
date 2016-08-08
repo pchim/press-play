@@ -14,8 +14,8 @@ class GridBoxes {
     // initialize gridboxes
     for (int rowIndex = 0; rowIndex < numRows; rowIndex++) {
       for (int colIndex = 0; colIndex < numCols; colIndex++) {
-        int gridNum = numRows*rowIndex + colIndex;
-        this.grid[gridNum] = new GridBox(gridNum, new GridCoordinate(numRows, numCols));
+        int gridNum = numCols*rowIndex + colIndex;
+        this.grid[gridNum] = new GridBox(gridNum, new GridCoordinate(rowIndex, colIndex));
       }
     } 
   }
