@@ -10,13 +10,18 @@ public class GridManager extends JPanel {
   GridVisual gridVisual;
   Piece piece;
   String keyPress;
-  MyDrawPanel mdp = new MyDrawPanel();
+  MyDrawPanel mdp;
+  int numRows;
+  int numCols;
 
 
   public GridManager (int numRows, int numCols) {
+    this.numRows = numRows;
+    this.numCols = numCols;
     this.gridBoxes = new GridBoxes(numRows, numCols);
     this.gridVisual = new GridVisual(numRows, numCols);
     this.piece = new Piece(numRows, numCols);
+    this.mdp = new MyDrawPanel();
     this.keyPress = null;
     this.setLayout(new BorderLayout());
     this.add(BorderLayout.CENTER, mdp);
@@ -96,10 +101,43 @@ public class GridManager extends JPanel {
     // this.repaint();
   }
 
+  // panel where the bricks all fall down
   class MyDrawPanel extends JPanel {
+    int height;
+    int width;
+    int blockWidth;
+    int blockHeight;
+    boolean init = false;
+
     public void paintComponent(Graphics g) {
+      if (!init) {
+        height = this.getHeight();
+        width = this.getWidth();
+        blockWidth = width / numCols;
+        blockHeight = height / numRows;
+        init = false;
+      }
+
       Graphics g2d = (Graphics2D) g;
-      g.fillRect( this.getWidth() / 5, 0, 3 * this.getWidth() / 5, this.getHeight());
+      //g.fillRect( this.getWidth() / 5, 0, 3 * this.getWidth() / 5, this.getHeight());
+      g.fillRect(0, 0, this.getWidth(), this.getHeight());
+      int red = (int) (Math.random() * 255);
+      int green = (int) (Math.random() * 255);
+      int blue = (int) (Math.random() * 255);
+      Color randomColor = new Color(red, green, blue);
+      g.setColor(randomColor);
+
+      for (int i = 0; i < gridBoxes.size(); i++) {
+        if (gridBoxes.getState(i, "on")) {
+          int row = gridBoxes.getBox(i).row;
+          int col = gridBoxes.getBox(i).col;
+          g.fillRect(col*blockWidth, row*blockHeight, blockWidth, blockHeight);
+          System.out.println("One on");
+          System.out.println("Row " + row + "; Col " + col + ";");
+          System.out.println("x: " + row*blockWidth + " y: " + col*blockHeight +
+                             " width: " + blockWidth + " height: " + blockHeight);
+        }
+      }
     }
   }
 

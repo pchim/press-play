@@ -17,7 +17,8 @@ class GridBoxes {
         int gridNum = numCols*rowIndex + colIndex;
         this.grid[gridNum] = new GridBox(gridNum, new GridCoordinate(rowIndex, colIndex));
       }
-    } 
+    }
+    this.grid[this.grid.length - 1].toggle(true); 
   }
 
   GridBox getBox(int index) {
@@ -44,6 +45,10 @@ class GridBoxes {
       System.out.println(e);
       return false;
     }
+  }
+
+  int size() {
+    return grid.length;
   }
 }
 

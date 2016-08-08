@@ -19,7 +19,7 @@ public class Start {
     // set size and visibility of frame
     frame.setSize(480, 640);
     frame.setVisible(true);
-    frame.setResizable(false);
+    //frame.setResizable(false);
 
     NUM_ROWS = numRows;
     NUM_COLS = numCols;
@@ -35,3 +35,4 @@ public class Start {
 
 }
 
+// LEFTOFF: DREW AN 'ON' GRID. SETUP STEP TIMER TO DRAW FALLING PIECES
