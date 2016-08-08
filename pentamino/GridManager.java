@@ -1,17 +1,25 @@
 package pentamino;
 
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+
 // GridManager model updates GridVisual view, piece is a state of gridmanager
-public class GridManager {
+public class GridManager extends JPanel {
   GridBoxes gridBoxes;
   GridVisual gridVisual;
   Piece piece;
   String keyPress;
+  MyDrawPanel mdp = new MyDrawPanel();
+
+
   public GridManager (int numRows, int numCols) {
     this.gridBoxes = new GridBoxes(numRows, numCols);
     this.gridVisual = new GridVisual(numRows, numCols);
     this.piece = new Piece(numRows, numCols);
     this.keyPress = null;
-    this.step();
+    this.setLayout(new BorderLayout());
+    this.add(BorderLayout.CENTER, mdp);
   }
 
   void activate(int[] shape) {
@@ -37,12 +45,6 @@ public class GridManager {
   }
 
   boolean move(Piece piece) {
-    // the IMPORTANT aspect of this is that we take care of the asynchronous
-    // user key presses by checking for that key press here.
-    // we now synchronously update the position of the piece
-
-    // later the piece will be re-rendered and is guaranteed to be in one piece
-
     // here is where we will check if any key presses have been done in queue
     if (this.keyPress != null) {
       this.moveHoriz(piece, this.keyPress);
@@ -85,14 +87,38 @@ public class GridManager {
     this.managerStep();
     this.gridVisual.step();
 
-    try {
-      Thread.sleep(100);
-    } catch (Exception e) {
+    // try {
+    //   Thread.sleep(100);
+    // } catch (Exception e) {
       
-    }
-    this.step();
-
+    // }
+    // this.step();
+    // this.repaint();
   }
+
+  class MyDrawPanel extends JPanel {
+    public void paintComponent(Graphics g) {
+      Graphics g2d = (Graphics2D) g;
+      g.fillRect( this.getWidth() / 5, 0, 3 * this.getWidth() / 5, this.getHeight());
+    }
+  }
+
+  public void paintComponent(Graphics g) {
+    Graphics g2d = (Graphics2D) g;
+
+    // g.fillRect(0, 0, this.getWidth(), this.getHeight());
+
+    // using regular graphics
+    // random colors
+    int red = (int) (Math.random() * 255);
+    int green = (int) (Math.random() * 255);
+    int blue = (int) (Math.random() * 255);
+    Color randomColor = new Color(red, green, blue);
+    g.setColor(randomColor);
+    // random color oval
+    g.fillOval(70, 70, 30, 30);
+  }
+
 }
 
 
